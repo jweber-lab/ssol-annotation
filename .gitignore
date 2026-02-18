@@ -90,6 +90,7 @@ renv/library/
 
 # --- Project-specific ---
 scratch.md
+.scratch*
 help/
 *bak/
 *backup/
