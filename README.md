@@ -2,7 +2,7 @@
 
 Structural and functional annotation of a newly assembled *S. solidus* genome,
 following the methods of
-[Nazarizadeh et al. (2024)](https://doi.org/10.1016/j.ygeno.2024.110928)
+[Nazarizadeh et al. (2024)](https://doi.org/10.1098/rspb.2023.2563)
 (*Ligula intestinalis* annotation) adapted for *S. solidus*.
 
 ## Pipeline overview
