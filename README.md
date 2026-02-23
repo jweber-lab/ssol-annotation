@@ -176,8 +176,7 @@ this pipeline.
 
 ## Software
 
-All tools are installed on the server via conda. Key software versions (from the
-reference paper unless otherwise noted):
+For most bioinformatics pipelines, it is best practice to have a . Software versions used in the annotation of _S. solidus_:
 
 | Tool | Version (paper) | Purpose |
 |------|-----------------|---------|

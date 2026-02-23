@@ -9,9 +9,9 @@ GENOME="../genomes/ssol/cyu-2026-01/ssol-no-rDNA.fa"   # KEEP UPDATED: path to S
 
 # ── RNA-seq evidence ─────────────────────────────────────────────────────────
 # Directory containing paired-end FASTQ files (*.fastq.gz).
-RNASEQ_DIR="/path/to/rnaseq"                      # UPDATE: path to RNA-seq reads
-RNASEQ_R1=("${RNASEQ_DIR}"/*_R1*.fastq.gz)
-RNASEQ_R2=("${RNASEQ_DIR}"/*_R2*.fastq.gz)
+# RNASEQ_DIR="/path/to/rnaseq"                      # UPDATE: path to RNA-seq reads
+# RNASEQ_R1=("${RNASEQ_DIR}"/*_R1*.fastq.gz)
+# RNASEQ_R2=("${RNASEQ_DIR}"/*_R2*.fastq.gz)
 
 # ── Reference species (proteomes & CDS for training) ────────────────────────
 GENOMES_ROOT="../genomes/downloads"
@@ -33,7 +33,7 @@ done
 UNIPROT_FASTA="/path/to/uniprot_sprot.fasta"       # UPDATE: Swiss-Prot FASTA
 
 # ── Compute resources ────────────────────────────────────────────────────────
-THREADS=8
+THREADS=32
 
 # ── Output directories ───────────────────────────────────────────────────────
 OUTDIR="results"

@@ -33,7 +33,7 @@ bash 02_repeatmasker.sh
 
 - **Engine** (`-engine`): `ncbi` (rmblast) is the default and recommended
   engine. The alternative `wublast` requires a separate license.
-- All other parameters use defaults, consistent with the source paper.
+- All other parameters use defaults, consistent with Nazarizadeh et al. (2024).
 - RepeatModeler internally runs RepeatScout and RECON to detect repeats, then
   classifies them against Dfam. The custom library captures species-specific
   repeat families that are absent from curated databases.
