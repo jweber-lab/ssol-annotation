@@ -9,12 +9,11 @@ mkdir -p "${REPEAT_DIR}"
 DB_NAME="${REPEAT_DIR}/${GENOME_LABEL}"
 
 echo "=== Building RepeatModeler database ==="
-BuildDatabase -name "${DB_NAME}" -engine ncbi "${GENOME}"
+BuildDatabase -name "${DB_NAME}" "${GENOME}"
 
 echo "=== Running RepeatModeler ==="
 RepeatModeler \
     -database "${DB_NAME}" \
-    -engine ncbi \
     -pa "${THREADS}" \
     -LTRStruct
 
