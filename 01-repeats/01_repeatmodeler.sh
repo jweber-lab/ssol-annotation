@@ -14,7 +14,7 @@ BuildDatabase -name "${DB_NAME}" "${GENOME}"
 echo "=== Running RepeatModeler ==="
 RepeatModeler \
     -database "${DB_NAME}" \
-    -pa "${THREADS}" \
+    -threads "${THREADS}" \
     -LTRStruct
 
 echo "=== RepeatModeler complete ==="
