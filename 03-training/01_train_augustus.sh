@@ -10,7 +10,8 @@ setup_logging
 SPECIES="ssol"
 TRAIN_DIR="${OUTDIR}/training/augustus"
 MASKED_GENOME="${OUTDIR}/repeats/$(basename "${GENOME}").masked"
-mkdir -p "${TRAIN_DIR}"
+WORK_DIR="${TMPDIR_BASE}/augustus"
+mkdir -p "${TRAIN_DIR}" "${WORK_DIR}"
 
 if [[ ! -f "${MASKED_GENOME}" ]]; then
     echo "ERROR: Masked genome not found: ${MASKED_GENOME}"
@@ -75,12 +76,14 @@ new_species.pl --species="${SPECIES}" || true   # ok if already exists
 echo "=== Initial training ==="
 etraining --species="${SPECIES}" "${TRAINING_GB}"
 
+cd "${WORK_DIR}"
 echo "=== Optimising parameters (6 rounds) ==="
 optimize_augustus.pl \
     --species="${SPECIES}" \
     --rounds=6 \
     --cpus="${THREADS}" \
     "${TRAINING_GB}"
+cd "${REPO_ROOT}"
 
 echo "=== Final training with optimised parameters ==="
 etraining --species="${SPECIES}" "${TRAINING_GB}"

@@ -6,17 +6,20 @@ setup_logging
 
 REPEAT_DIR="${OUTDIR}/repeats"
 mkdir -p "${REPEAT_DIR}"
-
-DB_NAME="${REPEAT_DIR}/${GENOME_LABEL}"
+REPEAT_DIR="$(cd "${REPEAT_DIR}" && pwd)"
 
 echo "=== Building RepeatModeler database ==="
-BuildDatabase -name "${DB_NAME}" "${GENOME}"
+BuildDatabase -name "${REPEAT_DIR}/${GENOME_LABEL}" "${GENOME}"
+
+WORK_DIR="${TMPDIR_BASE}/repeatmodeler"
+mkdir -p "${WORK_DIR}"
+cd "${WORK_DIR}"
 
 echo "=== Running RepeatModeler ==="
 RepeatModeler \
-    -database "${DB_NAME}" \
+    -database "${REPEAT_DIR}/${GENOME_LABEL}" \
     -threads "${THREADS}" \
     -LTRStruct
 
 echo "=== RepeatModeler complete ==="
-echo "Repeat library: ${DB_NAME}-families.fa"
+echo "Repeat library: ${REPEAT_DIR}/${GENOME_LABEL}-families.fa"

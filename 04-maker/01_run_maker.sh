@@ -31,6 +31,9 @@ HINTS_ABS="$(cd "$(dirname "${HINTS_GFF}")" && pwd)/$(basename "${HINTS_GFF}")"
 SNAP_ABS="$(cd "$(dirname "${SNAP_HMM}")" && pwd)/$(basename "${SNAP_HMM}")"
 PROT_ABS="$(cd "$(dirname "${COMBINED_PROT}")" && pwd)/$(basename "${COMBINED_PROT}")"
 
+MAKER_TMP="$(cd "${TMPDIR_BASE}" && pwd)/maker"
+mkdir -p "${MAKER_TMP}"
+
 sed -i.bak \
     -e "s|^genome=.*|genome=${MASKED_ABS}|" \
     -e "s|^est_gff=.*|est_gff=${HINTS_ABS}|" \
@@ -38,6 +41,7 @@ sed -i.bak \
     -e "s|^snaphmm=.*|snaphmm=${SNAP_ABS}|" \
     -e "s|^augustus_species=.*|augustus_species=${SPECIES}|" \
     -e "s|^cpus=.*|cpus=${THREADS}|" \
+    -e "s|^TMP=.*|TMP=${MAKER_TMP}|" \
     "${OPTS}"
 rm -f "${OPTS}.bak"
 

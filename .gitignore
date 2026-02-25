@@ -93,6 +93,9 @@ scratch.md
 .scratch*
 help/
 logs/
+results/
+temp/
+RM_*/
 *bak/
 *backup/
 

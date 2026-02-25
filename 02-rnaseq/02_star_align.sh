@@ -14,6 +14,9 @@ SJDB_OVERHANG=149   # read length - 1; adjust for your data
 R1=$(IFS=,; echo "${RNASEQ_R1[*]}")
 R2=$(IFS=,; echo "${RNASEQ_R2[*]}")
 
+STAR_TMP="${TMPDIR_BASE}/star"
+mkdir -p "${STAR_TMP}"
+
 echo "=== Running STAR two-pass alignment ==="
 STAR \
     --runMode alignReads \
@@ -25,6 +28,7 @@ STAR \
     --sjdbOverhang "${SJDB_OVERHANG}" \
     --outSAMtype BAM SortedByCoordinate \
     --outFileNamePrefix "${ALIGN_DIR}/" \
+    --outTmpDir "${STAR_TMP}/align" \
     --outFilterMultimapNmax 20
 
 echo "=== Indexing BAM ==="

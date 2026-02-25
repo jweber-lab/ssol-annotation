@@ -11,7 +11,8 @@ setup_logging
 TRAIN_DIR="${OUTDIR}/training/snap"
 AUG_TRAIN_DIR="${OUTDIR}/training/augustus"
 MASKED_GENOME="${OUTDIR}/repeats/$(basename "${GENOME}").masked"
-mkdir -p "${TRAIN_DIR}"
+WORK_DIR="${TMPDIR_BASE}/snap"
+mkdir -p "${TRAIN_DIR}" "${WORK_DIR}"
 
 TRAINING_GFF="${AUG_TRAIN_DIR}/training_genes.gff"
 if [[ ! -f "${TRAINING_GFF}" ]]; then
@@ -20,17 +21,13 @@ if [[ ! -f "${TRAINING_GFF}" ]]; then
     exit 1
 fi
 
-cd "${TRAIN_DIR}"
+cd "${WORK_DIR}"
 
 # ── 1. Convert training GFF to ZFF format ────────────────────────────────────
-#    ZFF requires a genome FASTA alongside the annotation file.
 echo "=== Converting training genes to ZFF ==="
-# If training genes are in GFF3, use maker2zff or a custom conversion.
-# Here we assume the exonerate output can be adapted; adjust as needed.
 maker2zff -n "${TRAINING_GFF}" 2>/dev/null \
     || gff3_to_zff.pl "${TRAINING_GFF}" "${MASKED_GENOME}" > genome.ann
 
-# Ensure the genome FASTA is available in the working directory.
 if [[ ! -f genome.dna ]]; then
     ln -sf "${MASKED_GENOME}" genome.dna
 fi
@@ -48,7 +45,7 @@ cd ..
 
 # ── 4. Assemble the HMM ─────────────────────────────────────────────────────
 echo "=== Assembling SNAP HMM ==="
-hmm-assembler.pl "${GENOME_LABEL}" export > "${GENOME_LABEL}.hmm"
+hmm-assembler.pl "${GENOME_LABEL}" export > "${TRAIN_DIR}/${GENOME_LABEL}.hmm"
 
 echo "=== SNAP training complete ==="
 echo "HMM file: ${TRAIN_DIR}/${GENOME_LABEL}.hmm"
