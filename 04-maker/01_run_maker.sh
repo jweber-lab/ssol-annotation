@@ -5,6 +5,7 @@
 # launches MAKER.
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
+setup_logging
 
 MAKER_DIR="${OUTDIR}/maker"
 mkdir -p "${MAKER_DIR}"

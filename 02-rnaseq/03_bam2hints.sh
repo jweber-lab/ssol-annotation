@@ -2,6 +2,7 @@
 # 03_bam2hints.sh — Extract intron hints from the STAR BAM for AUGUSTUS/MAKER.
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
+setup_logging
 
 ALIGN_DIR="${OUTDIR}/rnaseq/star_align"
 HINTS_DIR="${OUTDIR}/rnaseq"

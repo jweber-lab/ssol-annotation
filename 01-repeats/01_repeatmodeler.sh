@@ -2,6 +2,7 @@
 # 01_repeatmodeler.sh — Build a de novo repeat library with RepeatModeler.
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
+setup_logging
 
 REPEAT_DIR="${OUTDIR}/repeats"
 mkdir -p "${REPEAT_DIR}"

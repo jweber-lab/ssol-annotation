@@ -5,6 +5,7 @@
 # Requires: AUGUSTUS, BLAST+, exonerate (or scipio), bedtools.
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
+setup_logging
 
 SPECIES="ssol"
 TRAIN_DIR="${OUTDIR}/training/augustus"

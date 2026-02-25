@@ -6,6 +6,7 @@
 # Requires: SNAP (fathom, forge, hmm-assembler.pl), maker (maker2zff or gff3_merge).
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
+setup_logging
 
 TRAIN_DIR="${OUTDIR}/training/snap"
 AUG_TRAIN_DIR="${OUTDIR}/training/augustus"

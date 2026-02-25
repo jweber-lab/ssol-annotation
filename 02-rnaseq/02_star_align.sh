@@ -2,6 +2,7 @@
 # 02_star_align.sh — Two-pass STAR alignment of RNA-seq reads.
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
+setup_logging
 
 INDEX_DIR="${OUTDIR}/rnaseq/star_index"
 ALIGN_DIR="${OUTDIR}/rnaseq/star_align"

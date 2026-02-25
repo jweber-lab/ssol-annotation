@@ -2,6 +2,7 @@
 # 01_star_index.sh — Build a STAR genome index from the unmasked assembly.
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
+setup_logging
 
 INDEX_DIR="${OUTDIR}/rnaseq/star_index"
 mkdir -p "${INDEX_DIR}"

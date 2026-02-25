@@ -2,6 +2,7 @@
 # 01_trnascan.sh — Predict tRNA genes with tRNAscan-SE.
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
+setup_logging
 
 NCRNA_DIR="${OUTDIR}/ncrna"
 mkdir -p "${NCRNA_DIR}"

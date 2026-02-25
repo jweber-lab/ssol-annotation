@@ -92,6 +92,7 @@ renv/library/
 scratch.md
 .scratch*
 help/
+logs/
 *bak/
 *backup/
 

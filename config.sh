@@ -48,3 +48,19 @@ THREADS=32
 # ── Output directories ───────────────────────────────────────────────────────
 OUTDIR="results"
 mkdir -p "${OUTDIR}"
+
+# ── Logging ──────────────────────────────────────────────────────────────────
+# Call setup_logging after sourcing this file to tee all stdout/stderr to a
+# timestamped log in ./logs/.  Logs are named <script>.<timestamp>.log.
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+LOG_DIR="${REPO_ROOT}/logs"
+
+setup_logging() {
+    local script_name
+    script_name="$(basename "$0" .sh)"
+    mkdir -p "${LOG_DIR}"
+    LOG_FILE="${LOG_DIR}/${script_name}.$(date +%Y-%m-%d_%H%M%S).log"
+    exec > >(tee "${LOG_FILE}") 2>&1
+    echo "=== Log: ${LOG_FILE} ==="
+    echo "=== Started: $(date) ==="
+}

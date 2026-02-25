@@ -2,6 +2,7 @@
 # 01_transposonpsi.sh — Detect transposon homology with TransposonPSI.
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
+setup_logging
 
 TE_DIR="${OUTDIR}/transposons"
 mkdir -p "${TE_DIR}"

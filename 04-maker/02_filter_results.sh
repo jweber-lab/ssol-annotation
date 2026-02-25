@@ -6,6 +6,7 @@
 #   2. AED < 0.5: gene must have strong evidence support.
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
+setup_logging
 
 MAKER_DIR="${OUTDIR}/maker"
 ALL_GFF="${MAKER_DIR}/${GENOME_LABEL}_all.gff"

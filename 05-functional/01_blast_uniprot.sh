@@ -2,6 +2,7 @@
 # 01_blast_uniprot.sh — Functional annotation via BLASTp against Swiss-Prot.
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
+setup_logging
 
 FUNC_DIR="${OUTDIR}/functional"
 mkdir -p "${FUNC_DIR}"

@@ -2,6 +2,7 @@
 # 02_repeatmasker.sh — Soft-mask the genome using the de novo repeat library.
 set -euo pipefail
 source "$(dirname "$0")/../config.sh"
+setup_logging
 
 REPEAT_DIR="${OUTDIR}/repeats"
 REPEAT_LIB="${REPEAT_DIR}/${GENOME_LABEL}-families.fa"
