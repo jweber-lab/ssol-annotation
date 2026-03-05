@@ -10,6 +10,12 @@ mkdir -p "${ALIGN_DIR}"
 
 SJDB_OVERHANG=149   # read length - 1; adjust for your data
 
+if [[ -z "${RNASEQ_R1+x}" ]] || (( ${#RNASEQ_R1[@]} == 0 )); then
+    echo "ERROR: RNASEQ_R1 is not set or empty."
+    echo "Uncomment and set RNASEQ_DIR in config.sh first."
+    exit 1
+fi
+
 # Comma-separate multiple FASTQ files if present.
 R1=$(IFS=,; echo "${RNASEQ_R1[*]}")
 R2=$(IFS=,; echo "${RNASEQ_R2[*]}")

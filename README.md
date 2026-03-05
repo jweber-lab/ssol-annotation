@@ -14,6 +14,7 @@ flowchart TD
         RNAseq["RNA-seq reads"]
         RefProt["Reference proteomes\n(6 cestode species)"]
         UniProt["Swiss-Prot DB"]
+        TSA["Hebert 2016 TSA\n(optional)"]
     end
 
     subgraph step1 [01-repeats]
@@ -64,6 +65,8 @@ flowchart TD
     Filter --> BlastUni
     Filter --> TPSI
     Genome --> tRNA
+    TSA --> Maker
+    TSA --> Filter
 ```
 
 ## Directory layout
@@ -150,12 +153,18 @@ this pipeline.
 ### 04 — MAKER
 
 - Protein evidence combines Swiss-Prot peptides with predicted proteins from
-  the six reference cestode species.
+  the six reference cestode species. Optionally, same-species proteins from
+  the Hebert 2016 TSA can be added by setting `USE_TSA_PROTEIN=true` in
+  `config.sh`.
 - `est2genome=0` and `protein2genome=0` — use trained *ab initio* predictors
   rather than evidence-based gene building.
 - Post-hoc filtering keeps only genes predicted by **both** AUGUSTUS and SNAP,
   with AED (Annotation Edit Distance) < 0.5, matching the paper's criteria for
   high-confidence predictions.
+
+If `USE_TSA_FOR_MAKER=true` and `TSA_FASTA` points to the Hebert 2016 TSA
+transcript FASTA, MAKER also uses these transcripts as EST evidence (`est=`)
+in addition to the intron hints in `est_gff=`.
 
 ### 05 — Functional annotation
 
@@ -173,6 +182,15 @@ this pipeline.
 - **TransposonPSI** is run on both the genome (`nuc` mode) and the predicted
   protein set (`prot` mode) to identify transposon-derived sequences that may
   be false-positive gene predictions.
+
+### 08 — TSA validation (optional)
+
+- If `RUN_TSA_VALIDATION=true` and `TSA_FASTA` is set in `config.sh`,
+  `08-validation/01_tsa_vs_genome.sh` runs a BLASTn-based check of the TSA
+  transcripts against the genome. This reports the fraction of TSA transcripts
+  with high-identity, high-coverage genomic matches and writes the IDs (and
+  optionally FASTA) of poorly supported or unmapped transcripts as an
+  intersectional quality check.
 
 ## Software
 
