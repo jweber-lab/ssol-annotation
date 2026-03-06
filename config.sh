@@ -29,13 +29,8 @@ RNASEQ_R2=("${RNASEQ_DIR}"/*_2.fastq.gz)
 # Nucleotide TSA FASTA for S. solidus transcripts (EST-like evidence).
 TSA_FASTA="${REPO_ROOT}/../transcriptomes/hebert-2016/PRJNA304161/GEEE01/GEEE01.1.fsa_nt.gz"
 
-# Optional: predicted proteins from TSA (same-species protein evidence).
+# Predicted proteins from TSA (same-species protein evidence).
 TSA_PROTEINS="${REPO_ROOT}/../transcriptomes/hebert-2016/PRJNA304161/GEEE01/GEEE01.1.fsa_aa.gz"
-
-# Feature flags controlling TSA usage.
-USE_TSA_FOR_MAKER=false     # If true, pass TSA_FASTA as est= to MAKER.
-USE_TSA_PROTEIN=false       # If true, include TSA_PROTEINS in MAKER protein evidence.
-RUN_TSA_VALIDATION=true    # If true, run 08-validation TSA-vs-genome check.
 
 # ── Reference species (proteomes & CDS for training) ────────────────────────
 GENOMES_ROOT="${REPO_ROOT}/../genomes/downloads"

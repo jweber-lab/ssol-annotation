@@ -4,11 +4,6 @@ set -euo pipefail
 source "$(dirname "$0")/../config.sh"
 setup_logging
 
-if [[ "${RUN_TSA_VALIDATION}" != "true" ]]; then
-    echo "RUN_TSA_VALIDATION=false in config.sh — skipping TSA validation."
-    exit 0
-fi
-
 if [[ ! -f "${TSA_FASTA}" ]]; then
     echo "ERROR: TSA_FASTA not found: ${TSA_FASTA}"
     echo "Update TSA_FASTA in config.sh to the Hebert 2016 TSA nucleotide FASTA."

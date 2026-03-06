@@ -14,7 +14,6 @@ flowchart TD
         RNAseq["RNA-seq reads"]
         RefProt["Reference proteomes\n(6 cestode species)"]
         UniProt["Swiss-Prot DB"]
-        TSA["Hebert 2016 TSA\n(optional)"]
     end
 
     subgraph step1 [01-repeats]
@@ -65,8 +64,6 @@ flowchart TD
     Filter --> BlastUni
     Filter --> TPSI
     Genome --> tRNA
-    TSA --> Maker
-    TSA --> Filter
 ```
 
 ## Directory layout
@@ -81,6 +78,7 @@ flowchart TD
 | `05-functional/` | Functional annotation (BLASTp vs Swiss-Prot) |
 | `06-ncrna/` | tRNA prediction (tRNAscan-SE) |
 | `07-transposons/` | Transposon identification in proteins and genome (TransposonPSI) |
+| `08-validation/` | Comparisons of the transcriptome result to validate quality and completion |
 | `help/` | Local tool manuals (gitignored, not versioned) |
 
 ## Quick start
@@ -153,18 +151,12 @@ this pipeline.
 ### 04 — MAKER
 
 - Protein evidence combines Swiss-Prot peptides with predicted proteins from
-  the six reference cestode species. Optionally, same-species proteins from
-  the Hebert 2016 TSA can be added by setting `USE_TSA_PROTEIN=true` in
-  `config.sh`.
+  the six reference cestode species.
 - `est2genome=0` and `protein2genome=0` — use trained *ab initio* predictors
   rather than evidence-based gene building.
 - Post-hoc filtering keeps only genes predicted by **both** AUGUSTUS and SNAP,
   with AED (Annotation Edit Distance) < 0.5, matching the paper's criteria for
   high-confidence predictions.
-
-If `USE_TSA_FOR_MAKER=true` and `TSA_FASTA` points to the Hebert 2016 TSA
-transcript FASTA, MAKER also uses these transcripts as EST evidence (`est=`)
-in addition to the intron hints in `est_gff=`.
 
 ### 05 — Functional annotation
 

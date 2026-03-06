@@ -18,12 +18,7 @@ SPECIES="ssol"
 
 # ── Combine protein evidence ─────────────────────────────────────────────────
 COMBINED_PROT="${MAKER_DIR}/protein_evidence.faa"
-if [[ "${USE_TSA_PROTEIN}" == "true" && -f "${TSA_PROTEINS}" ]]; then
-    echo "Including TSA proteins in MAKER protein evidence: ${TSA_PROTEINS}"
-    cat "${REF_PROTEINS[@]}" "${UNIPROT_FASTA}" "${TSA_PROTEINS}" > "${COMBINED_PROT}"
-else
-    cat "${REF_PROTEINS[@]}" "${UNIPROT_FASTA}" > "${COMBINED_PROT}"
-fi
+cat "${REF_PROTEINS[@]}" "${UNIPROT_FASTA}" > "${COMBINED_PROT}"
 echo "Combined protein evidence: $(grep -c '^>' "${COMBINED_PROT}") sequences."
 
 # ── Fill in maker_opts.ctl ───────────────────────────────────────────────────
@@ -36,23 +31,11 @@ HINTS_ABS="$(cd "$(dirname "${HINTS_GFF}")" && pwd)/$(basename "${HINTS_GFF}")"
 SNAP_ABS="$(cd "$(dirname "${SNAP_HMM}")" && pwd)/$(basename "${SNAP_HMM}")"
 PROT_ABS="$(cd "$(dirname "${COMBINED_PROT}")" && pwd)/$(basename "${COMBINED_PROT}")"
 
-TSA_EST_ABS=""
-if [[ "${USE_TSA_FOR_MAKER}" == "true" ]]; then
-    if [[ -f "${TSA_FASTA}" ]]; then
-        TSA_EST_ABS="$(cd "$(dirname "${TSA_FASTA}")" && pwd)/$(basename "${TSA_FASTA}")"
-        echo "Using TSA as EST evidence in MAKER: ${TSA_EST_ABS}"
-    else
-        echo "WARNING: USE_TSA_FOR_MAKER=true but TSA_FASTA not found: ${TSA_FASTA}"
-        echo "         est= will be left blank."
-    fi
-fi
-
 MAKER_TMP="$(cd "${TMPDIR_BASE}" && pwd)/maker"
 mkdir -p "${MAKER_TMP}"
 
 sed -i.bak \
     -e "s|^genome=.*|genome=${MASKED_ABS}|" \
-    -e "s|^est=.*|est=${TSA_EST_ABS}|" \
     -e "s|^est_gff=.*|est_gff=${HINTS_ABS}|" \
     -e "s|^protein=.*|protein=${PROT_ABS}|" \
     -e "s|^snaphmm=.*|snaphmm=${SNAP_ABS}|" \
