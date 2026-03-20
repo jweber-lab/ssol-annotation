@@ -8,7 +8,7 @@ hints for AUGUSTUS/MAKER using `bam2hints`.
 | Script | Tool | Purpose |
 |--------|------|---------|
 | `01_star_index.sh` | STAR | Build genome index for alignment |
-| `02_star_align.sh` | STAR | Two-pass splice-aware alignment |
+| `02_star_align.sh` | STAR + samtools | Two-pass alignment; coordinate sort via `samtools sort` |
 | `03_bam2hints.sh` | AUGUSTUS bam2hints | Extract intron hints from aligned BAM |
 
 Run in order:
@@ -47,8 +47,12 @@ bash 03_bam2hints.sh
 - **`--sjdbOverhang`**: Ideally read length - 1 (e.g. 149 for 150 bp reads).
   The script defaults to 149; adjust in `config.sh` or the script if your
   reads differ.
-- **`--outSAMtype BAM SortedByCoordinate`**: Produces a coordinate-sorted BAM
-  directly, avoiding a separate samtools sort step.
+- **`--outSAMtype BAM Unsorted`** then **`samtools sort`**: STAR’s built-in
+  `SortedByCoordinate` mode creates many temporary files under `BAMsort/` and
+  often fails with “could not create output file … BAMsort/…” when the process
+  hits **`ulimit -n`** (open file limit), especially with many threads and large
+  merges. Writing unsorted BAM and sorting with samtools avoids that and still
+  produces `Aligned.sortedByCoord.out.bam` for `bam2hints`.
 - **`--outFilterMultimapNmax 20`**: Allows up to 20 multi-mapping locations
   (STAR default). For annotation purposes, keeping some multi-mappers provides
   coverage in recently duplicated genes.

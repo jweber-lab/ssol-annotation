@@ -54,6 +54,9 @@ STAR_TMP="${TMPDIR_BASE}/star"
 mkdir -p "${STAR_TMP}"
 
 echo "=== Running STAR two-pass alignment ==="
+# Use Unsorted BAM here: STAR's internal coordinate sort opens many temp files
+# (BAMsort/*) and often hits ulimit -n with many threads / large merges. Sort with
+# samtools instead; downstream still sees Aligned.sortedByCoord.out.bam.
 STAR \
     --runMode alignReads \
     --runThreadN "${THREADS}" \
@@ -62,13 +65,25 @@ STAR \
     --readFilesCommand zcat \
     --twopassMode Basic \
     --sjdbOverhang "${SJDB_OVERHANG}" \
-    --outSAMtype BAM SortedByCoordinate \
+    --outSAMtype BAM Unsorted \
     --outFileNamePrefix "${ALIGN_DIR}/" \
     --outTmpDir "${STAR_TMP}/align" \
     --outFilterMultimapNmax 20
 
+UNSORTED_BAM="${ALIGN_DIR}/Aligned.out.bam"
+SORTED_BAM="${ALIGN_DIR}/Aligned.sortedByCoord.out.bam"
+if [[ ! -f "${UNSORTED_BAM}" ]]; then
+    echo "ERROR: STAR did not produce ${UNSORTED_BAM}"
+    exit 1
+fi
+
+mkdir -p "${STAR_TMP}/sort"
+echo "=== Sorting BAM with samtools (coordinate) ==="
+samtools sort -@ "${THREADS}" -T "${STAR_TMP}/sort/st" -o "${SORTED_BAM}" "${UNSORTED_BAM}"
+rm -f "${UNSORTED_BAM}"
+
 echo "=== Indexing BAM ==="
-samtools index "${ALIGN_DIR}/Aligned.sortedByCoord.out.bam"
+samtools index "${SORTED_BAM}"
 
 echo "=== STAR alignment complete ==="
 echo "BAM: ${ALIGN_DIR}/Aligned.sortedByCoord.out.bam"
