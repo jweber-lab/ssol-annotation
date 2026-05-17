@@ -71,6 +71,13 @@ UNIPROT_FASTA="/path/to/uniprot_sprot.fasta"       # UPDATE: Swiss-Prot FASTA
 # ── Compute resources ────────────────────────────────────────────────────────
 THREADS=32
 
+# ── AUGUSTUS training: exonerate chunking (memory / runtime) ─────────────────
+# Split combined reference proteins into chunk FASTAs, run exonerate per
+# chunk, then merge GFFs. Limits peak RAM vs one 100k+ protein exonerate job.
+# Set both to 0 to disable chunking (single exonerate on the full COMBINED_PROT).
+EXONERATE_CHUNK_MAX_SEQS=5000
+EXONERATE_CHUNK_MAX_RESIDUES=3000000
+
 # ── Output directories (all absolute) ────────────────────────────────────────
 OUTDIR="${REPO_ROOT}/results"
 TMPDIR_BASE="${REPO_ROOT}/temp"
